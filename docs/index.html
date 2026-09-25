@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cardio Step Challenge</title>
+<meta name="description" content="Hospital-wide step challenge hosted by the cardiology club.">
+<style>
+  :root {
+    --bg: #f7f7f8; --card: #ffffff; --ink: #1b1d21; --muted: #5d6470; --line: #e3e5e9;
+    --accent: #c8102e; --accent-ink: #ffffff; --you: #fff1f3; --ok: #1f7a4d; --warn: #9a5b00;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #121316; --card: #1b1d21; --ink: #eceef2; --muted: #9aa1ad; --line: #2c2f36;
+      --accent: #ff4d63; --accent-ink: #121316; --you: #2a1a1e; --ok: #4fc58a; --warn: #f0b35a;
+      color-scheme: dark; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; }
+  h1 { margin: 0; font-size: 1.6rem; text-wrap: balance; }
+  h2 { margin: 0 0 8px; font-size: 1.05rem; }
+  .muted { color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+  .btn { display: inline-block; background: var(--accent); color: var(--accent-ink); text-decoration: none;
+    padding: 12px 18px; border-radius: 8px; font-weight: 600; }
+  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .banner { padding: 12px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); }
+  .banner.ok { border-color: var(--ok); } .banner.warn { border-color: var(--warn); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .stat b { display: block; font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+  .bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin-top: 8px; }
+  .bar > span { display: block; height: 100%; background: var(--accent); }
+  .tabs { display: flex; gap: 8px; margin-bottom: 8px; }
+  .tabs button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line);
+    background: transparent; color: var(--ink); cursor: pointer; }
+  .tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { font-size: .8rem; color: var(--muted); font-weight: 600; }
+  td.n, th.n { text-align: right; }
+  tr.you td { background: var(--you); font-weight: 600; }
+  .who { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .who img, .who .ph { width: 26px; height: 26px; border-radius: 50%; flex: none; background: var(--line); object-fit: cover; }
+  .who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .scroll { overflow-x: auto; }
+  ul.plain { margin: 0; padding-left: 18px; }
+  footer { font-size: .85rem; }
+</style>
+</head>
+<body>
+<main>
+  <header class="row">
+    <div>
+      <h1 id="title">Cardio Step Challenge</h1>
+      <div class="muted" id="subtitle">Loading…</div>
+    </div>
+    <a class="btn" id="connect" href="#">Connect Pacer</a>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <section class="card" id="me-card" hidden>
+    <h2>You</h2>
+    <div class="stats" id="me-stats"></div>
+  </section>
+
+  <section class="card">
+    <h2 id="goal-label">Hospital goal</h2>
+    <div class="stats" id="totals"></div>
+    <div class="bar" aria-hidden="true"><span id="goal-bar" style="width:0"></span></div>
+    <div class="muted" id="goal-text"></div>
+  </section>
+
+  <section class="card">
+    <div class="tabs" role="group" aria-label="Leaderboard">
+      <button type="button" id="tab-total" aria-pressed="true">Whole challenge</button>
+      <button type="button" id="tab-week" aria-pressed="false">This week</button>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th class="n" id="col-main">Steps</th><th class="n">Today</th><th class="n">Streak</th></tr></thead>
+        <tbody id="board"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="podium-card" hidden>
+    <h2>Yesterday's top 3</h2>
+    <ul class="plain" id="podium"></ul>
+  </section>
+
+  <section class="card" id="movers-card" hidden>
+    <h2>Biggest movers this week</h2>
+    <ul class="plain" id="movers"></ul>
+  </section>
+
+  <section class="card" id="news-card" hidden>
+    <h2>Announcements</h2>
+    <div id="news"></div>
+  </section>
+
+  <footer class="muted">
+    Steps come from the free Pacer app, which reads your phone or watch automatically.
+    The board refreshes every 30 minutes after your phone syncs. Manually typed steps do not count.
+    <span id="updated"></span>
+  </footer>
+</main>
+
+<script>
+const CONFIG = {
+  supabaseUrl: "https://ipwnyjsbdpzjjdojyebl.supabase.co",
+  publishableKey: "SET_ME",
+};
+const fnUrl = CONFIG.supabaseUrl + "/functions/v1";
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => Number(n || 0).toLocaleString();
+let me = null, board = null, view = "total";
+
+try {
+  const q = new URLSearchParams(location.search);
+  if (q.get("me")) { localStorage.setItem("me", q.get("me")); history.replaceState(null, "", location.pathname + location.hash); }
+  me = localStorage.getItem("me");
+} catch {}
+
+$("connect").href = fnUrl + "/auth-start";
+
+const banners = {
+  joined:  ["ok",   "You're in. Your steps will appear within a few minutes and keep updating on their own."],
+  denied:  ["warn", "Pacer access was not approved. Tap Connect Pacer to try again."],
+  expired: ["warn", "That sign-in link expired. Tap Connect Pacer to try again."],
+  error:   ["warn", "Something went wrong connecting to Pacer. Try again in a minute; if it keeps failing, tell the cardiology club."],
+};
+const b = banners[location.hash.slice(1)];
+if (b) { $("banner").className = "banner " + b[0]; $("banner").textContent = b[1]; $("banner").hidden = false; }
+
+function person(p) {
+  const d = document.createElement("div"); d.className = "who";
+  if (p.avatar) { const i = document.createElement("img"); i.src = p.avatar; i.alt = ""; i.loading = "lazy"; d.append(i); }
+  else { const s = document.createElement("span"); s.className = "ph"; d.append(s); }
+  const n = document.createElement("span"); n.textContent = p.name; d.append(n);
+  return d;
+}
+
+function stat(label, value) {
+  const d = document.createElement("div"); d.className = "stat";
+  const b = document.createElement("b"); b.textContent = value;
+  d.append(b, document.createTextNode(label)); return d;
+}
+
+function render() {
+  if (!board) return;
+  const c = board.challenge, t = board.totals;
+  $("title").textContent = c.name;
+  $("subtitle").textContent =
+    c.status === "upcoming" ? `Starts ${c.start_date} · ${c.days_left} days to go` :
+    c.status === "finished" ? `Finished ${c.end_date}` :
+    `Day ${c.day_number} of ${c.days_total} · ${c.days_left} days left`;
+
+  $("totals").replaceChildren(stat("steps together", fmt(t.steps)), stat("walkers", fmt(t.participants)),
+    stat("moved today", fmt(t.active_today)));
+  $("goal-label").textContent = c.collective_goal_label;
+  const pct = Math.min(100, (t.steps / c.collective_goal_steps) * 100);
+  $("goal-bar").style.width = pct.toFixed(1) + "%";
+  $("goal-text").textContent = `${pct.toFixed(1)}% of ${fmt(c.collective_goal_steps)} steps`;
+
+  const m = board.me;
+  $("me-card").hidden = !m;
+  if (m) $("me-stats").replaceChildren(stat("rank", "#" + m.rank), stat("total steps", fmt(m.total)),
+    stat("today", fmt(m.today)), stat("day streak", m.streak));
+  $("connect").textContent = m ? "Reconnect Pacer" : "Connect Pacer";
+
+  const rows = [...board.leaderboard].sort((a, b) =>
+    view === "week" ? a.week_rank - b.week_rank : a.rank - b.rank);
+  $("col-main").textContent = view === "week" ? "This week" : "Total";
+  $("board").replaceChildren(...rows.map((p) => {
+    const tr = document.createElement("tr"); if (p.id === me) tr.className = "you";
+    const cells = [view === "week" ? p.week_rank : p.rank, null, fmt(view === "week" ? p.week : p.total), fmt(p.today), p.streak];
+    cells.forEach((v, i) => {
+      const td = document.createElement("td"); if (i >= 2) td.className = "n";
+      if (i === 1) td.append(person(p)); else td.textContent = v;
+      tr.append(td);
+    });
+    return tr;
+  }));
+
+  $("podium-card").hidden = !board.podium_yesterday.length;
+  $("podium").replaceChildren(...board.podium_yesterday.map((p) => {
+    const li = document.createElement("li"); li.textContent = `${p.name} · ${fmt(p.steps)}`; return li; }));
+  $("movers-card").hidden = !board.movers.length;
+  $("movers").replaceChildren(...board.movers.map((p) => {
+    const li = document.createElement("li");
+    li.textContent = `${p.name} · +${fmt(p.delta)} steps/day vs last week`; return li; }));
+  $("news-card").hidden = !board.announcements.length;
+  $("news").replaceChildren(...board.announcements.map((a) => {
+    const d = document.createElement("p"); const s = document.createElement("strong");
+    s.textContent = a.title; d.append(s, document.createTextNode(" " + a.body)); return d; }));
+  $("updated").textContent = "Last refreshed " + new Date(board.generated_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) + ".";
+}
+
+async function load() {
+  try {
+    const res = await fetch(CONFIG.supabaseUrl + "/rest/v1/rpc/get_board", {
+      method: "POST",
+      headers: { apikey: CONFIG.publishableKey, "Content-Type": "application/json" },
+      body: JSON.stringify({ me: me || null }),
+    });
+    if (!res.ok) throw new Error(res.status);
+    board = await res.json();
+    render();
+  } catch (e) {
+    $("subtitle").textContent = "Couldn't load the leaderboard. Retrying shortly.";
+  }
+}
+
+for (const [id, v] of [["tab-total", "total"], ["tab-week", "week"]]) {
+  $(id).addEventListener("click", () => {
+    view = v;
+    $("tab-total").setAttribute("aria-pressed", v === "total");
+    $("tab-week").setAttribute("aria-pressed", v === "week");
+    render();
+  });
+}
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>
