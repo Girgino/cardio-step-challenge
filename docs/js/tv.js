@@ -40,7 +40,7 @@ function boot() {
   shell = h("div", { class: "tv" },
     lake,
     h("header", { class: "tv-head" },
-      h("div", { class: "tv-brand", html: `<svg class="mark"><use href="#mark"/></svg><div><b>Cardio Step Challenge</b><span>${SITE.hospital} · hosted by the ${SITE.host}</span></div>` }),
+      h("div", { class: "tv-brand", html: `<svg class="mark"><use href="#mark"/></svg><div><b>Cardio Step Challenge</b><span>${SITE.hospital} · hosted by ${SITE.host}</span></div>` }),
       h("div", { class: "tv-meta" }, h("span", { class: "tv-pill", id: "tv-day" }), h("span", { class: "tv-clock", id: "tv-clock" }))),
     stage = h("main", { class: "tv-stage" }),
     h("footer", { class: "tv-foot" },

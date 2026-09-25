@@ -88,7 +88,7 @@ Static, no build step. `docs/index.html` loads ES modules from `docs/js/`:
 - CDN libraries, pinned with SRI: GSAP 3.15.0 + ScrollTrigger, Lenis 1.3.26. Fonts: Space Grotesk and JetBrains Mono.
 - `prefers-reduced-motion` (or `?motion=off`) turns off smooth scrolling, pinning and count-ups.
 
-Look: "night-shift monitor". Light housing with dark monitor panels; follows the phone's light or dark mode; TV always dark. Palette leans on HCA navy; the Cardiology Club mark is original (heart-rhythm line over a Lake Monroe waterline). No HCA logo is used. A slot for the official logo is reserved on the poster footer if marketing provides one.
+Look: "night-shift monitor". Light housing with dark monitor panels; follows the phone's light or dark mode; TV always dark. Palette leans on HCA navy; the Cardio Connect LMH mark is original (heart-rhythm line over a Lake Monroe waterline). No HCA logo is used. A slot for the official logo is reserved on the poster footer if marketing provides one.
 
 URLs:
 

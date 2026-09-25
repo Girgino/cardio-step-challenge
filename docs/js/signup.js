@@ -62,7 +62,7 @@ export function renderJoin(ctx) {
     h("details", { class: "help" }, h("summary", { text: "Trouble?" }),
       h("p", { text: "If your steps show 0 after a few minutes, you probably picked a different sign-in than in the app. Tap Connect Pacer again and choose the other one." }),
       h("p", { text: "If Pacer never asked you to sign in, open your profile in Pacer, sign in there, then come back and connect." }),
-      h("p", { text: "Still stuck? Find someone from the Cardiology Club. It takes a minute to sort out." })));
+      h("p", { text: "Still stuck? Find someone from Cardio Connect LMH. It takes a minute to sort out." })));
 
   const parts = [step1, step2];
   if (os === "desktop") {

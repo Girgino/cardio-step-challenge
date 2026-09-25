@@ -1,6 +1,6 @@
 # Cardio Step Challenge
 
-Hospital-wide step challenge for the cardiology club.
+Hospital-wide step challenge hosted by Cardio Connect LMH.
 
 - **Steps** come from the free Pacer app (phone sensor, Apple Health, Health Connect, Fitbit, Garmin). Participants connect once.
 - **Backend** is Supabase project `ipwnyjsbdpzjjdojyebl`: Postgres, three Edge Functions, pg_cron.

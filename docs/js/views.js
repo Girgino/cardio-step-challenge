@@ -81,7 +81,7 @@ const BANNERS = {
   joined: ["ok", "You're in. Your steps will show up within a few minutes and keep updating on their own."],
   denied: ["warn", "Pacer access wasn't approved. Go to step 2 and tap Connect again, then tap Approve."],
   expired: ["warn", "That sign-in took too long and expired. Go to step 2 and tap Connect again."],
-  error: ["warn", "Something went wrong connecting to Pacer. Wait a minute and tap Connect again. If it keeps failing, tell the Cardiology Club."],
+  error: ["warn", "Something went wrong connecting to Pacer. Wait a minute and tap Connect again. If it keeps failing, tell Cardio Connect LMH."],
   missing: ["warn", "We couldn't find your connection on this phone. Connect again below; your steps are kept."],
 };
 export function banner(kind) {

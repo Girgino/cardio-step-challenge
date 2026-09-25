@@ -3,7 +3,7 @@
 
 export const SITE = {
   hospital: "HCA Florida Lake Monroe Hospital",
-  host: "Cardiology Club",
+  host: "Cardio Connect LMH",
   url: "https://lmhstepchallenge.github.io/",
   supabaseUrl: "https://ipwnyjsbdpzjjdojyebl.supabase.co",
   publishableKey: "sb_publishable_MP3JHZpE_xYrCRySAYSxww_zy_kvB4J",
