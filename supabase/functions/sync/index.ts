@@ -1,13 +1,13 @@
 // POST /sync {mode: "recent" | "full"} with header x-sync-secret.
 // Called by pg_cron. Returns 202 at once and keeps working in the background.
-import { admin, logEvent, settings, syncParticipant } from "../_shared/pacer.ts";
+import { admin, getClientSecret, logEvent, settings, syncParticipant } from "../_shared/pacer.ts";
 
 const CONCURRENCY = 8;
 
 async function runSync(mode: "recent" | "full", only?: string) {
   const db = admin();
   const s = await settings(db);
-  const clientSecret = Deno.env.get("PACER_CLIENT_SECRET")!;
+  const clientSecret = getClientSecret()!;
   const { data: challenge } = await db.from("challenge").select("start_date,end_date,timezone").single();
   let query = db.from("participants").select("id,pacer_user_id").eq("active", true);
   if (only) query = query.eq("id", only);
@@ -38,6 +38,12 @@ Deno.serve(async (req) => {
     return new Response("forbidden", { status: 403 });
   }
   const body = await req.json().catch(() => ({}));
+  if (body.mode === "check") {
+    return Response.json({
+      pacer_secret_present: !!getClientSecret(),
+      pacer_client_id_set: !!s.pacer_client_id && s.pacer_client_id !== "SET_ME",
+    });
+  }
   const mode = body.mode === "full" ? "full" : "recent";
   const task = runSync(mode, body.participant_id);
   // deno-lint-ignore no-explicit-any

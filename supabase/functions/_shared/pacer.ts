@@ -22,6 +22,12 @@ export async function settings(db: SupabaseClient): Promise<Record<string, strin
   return Object.fromEntries((data ?? []).map((r) => [r.key, r.value]));
 }
 
+/** Pacer client secret from Edge Function secrets (accepts either name). */
+export function getClientSecret(): string | undefined {
+  return Deno.env.get("PACER_CLIENT_SECRET") ?? Deno.env.get("pacer developer client secret")
+    ?? Object.entries(Deno.env.toObject()).find(([k]) => k.toLowerCase().includes("pacer"))?.[1];
+}
+
 export async function logEvent(
   db: SupabaseClient, kind: string, detail: unknown, participantId?: string,
 ) {

@@ -1,7 +1,7 @@
 // GET /auth-callback?code=&state=&auth_result= (Pacer redirect target).
 // Exchanges the code, saves the participant, backfills steps, returns to the page.
 import {
-  admin, exchangeCode, logEvent, settings, syncParticipant, userInfo,
+  admin, exchangeCode, getClientSecret, logEvent, settings, syncParticipant, userInfo,
 } from "../_shared/pacer.ts";
 
 Deno.serve(async (req) => {
@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
       return back("expired");
     }
 
-    const clientSecret = Deno.env.get("PACER_CLIENT_SECRET");
+    const clientSecret = getClientSecret();
     if (!clientSecret) throw new Error("PACER_CLIENT_SECRET not set");
     const tok = await exchangeCode(s.pacer_client_id, clientSecret, code);
     const userId = String(tok.user_id);

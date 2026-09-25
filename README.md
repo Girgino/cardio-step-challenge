@@ -62,11 +62,14 @@ group by 1 order by 2 desc;
 
 ## Deploying changes
 
+The Supabase token for this project lives in `~/.cardio-supabase-token` and sees only this project.
+
 ```bash
-export SUPABASE_ACCESS_TOKEN=$(cat ~/.cardio-supabase-token)
-supabase db push --linked
-supabase functions deploy auth-start auth-callback sync --project-ref ipwnyjsbdpzjjdojyebl
+scripts/sql.sh -f supabase/migrations/<new-file>.sql
+SUPABASE_ACCESS_TOKEN=$(tr -d '[:space:]' < ~/.cardio-supabase-token) supabase functions deploy auth-start auth-callback sync --project-ref ipwnyjsbdpzjjdojyebl --use-api
 ```
+
+`scripts/sql.sh "select ..."` runs any SQL through the Supabase Management API, no database password needed.
 
 The page deploys on every push to `main` (GitHub Pages, `docs/` folder).
 
@@ -74,7 +77,7 @@ The page deploys on every push to `main` (GitHub Pages, `docs/` folder).
 
 Set in the Supabase dashboard under Edge Functions, Secrets:
 
-- `PACER_CLIENT_SECRET`: from developer.mypacer.com.
+- Pacer client secret from developer.mypacer.com. Currently stored under the name `pacer developer client secret`; the code also accepts `PACER_CLIENT_SECRET`.
 
 Stored in `public.app_settings` (server-only table): `pacer_client_id`, `sync_secret` (random), `functions_url`, `page_url`.
 
