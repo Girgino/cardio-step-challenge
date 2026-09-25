@@ -4,7 +4,7 @@ Hospital-wide step challenge for the cardiology club.
 
 - **Steps** come from the free Pacer app (phone sensor, Apple Health, Health Connect, Fitbit, Garmin). Participants connect once.
 - **Backend** is Supabase project `ipwnyjsbdpzjjdojyebl`: Postgres, three Edge Functions, pg_cron.
-- **Page** is static, in `docs/`, served by GitHub Pages. It reads one RPC, `get_board`.
+- **Page** is static, in `docs/`, served by GitHub Pages at https://lmhstepchallenge.github.io/ (repo `LMHstepchallenge/lmhstepchallenge.github.io`). It reads one RPC, `get_board`.
 
 ## How it works
 

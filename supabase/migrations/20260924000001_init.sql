@@ -17,7 +17,7 @@ revoke all on public.app_settings from anon, authenticated;
 insert into public.app_settings (key, value) values
   ('sync_secret',     encode(extensions.gen_random_bytes(24), 'hex')),
   ('functions_url',   'https://ipwnyjsbdpzjjdojyebl.supabase.co/functions/v1'),
-  ('page_url',        'https://girgino.github.io/cardio-step-challenge/'),
+  ('page_url',        'https://lmhstepchallenge.github.io/'),
   ('pacer_client_id', 'SET_ME');
 
 -- ---------------------------------------------------------------- challenge
