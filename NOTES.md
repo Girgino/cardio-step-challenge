@@ -43,8 +43,32 @@ Badge keys: `first_steps k50 k100 k250 k500 m1 marathon day20k streak7 streak14 
 
 `me` is saved in localStorage after the OAuth redirect (`?me=<uuid>#joined`). The hash values `#joined #denied #expired #error` drive banners.
 
+## Sign-up flow (agreed direction)
+
+One QR code, one page, two steps. The page detects iPhone or Android.
+
+1. **Get Pacer:** the App Store or Play Store button. The person installs the app, signs in with Apple or Google, and allows Health access.
+2. **Connect:** they return to the same browser tab, tap Connect, use the same login method, and approve.
+
+The page remembers which step someone reached, so they can finish later. It takes about 3 minutes.
+
+Supporting tactics:
+
+- Email the link ahead of the poster campaign.
+- Staff a sign-up table during launch week.
+- The poster promises "one scan, 3 minutes."
+
+**Open risk:** the Pacer app may create an anonymous account on first open. The dry run must test a brand-new phone.
+
 ## Planned sessions
 
 1. Done: infrastructure.
-2. **Mechanics and page design:** brainstorm and flesh out mechanics, then design an immersive, scroll-driven editorial page.
-3. **Launch kit:** real dates, QR poster, participant one-pager, announcement calendar, dry run, go-live checklist, end-of-event export and teardown.
+2. **Mechanics, page, sign-up flow and poster:** brainstorm and flesh out mechanics; design the immersive, scroll-driven page, including the guided two-step sign-up; design the QR poster in the same visual identity.
+3. **Launch kit:**
+   - real dates and collective goal
+   - announcement calendar seeded into the database
+   - participant one-pager and email announcement text
+   - sign-up table script
+   - dry run with 5 people, including one brand-new phone and one Android
+   - go-live checklist
+   - end-of-event results export, awards and teardown
