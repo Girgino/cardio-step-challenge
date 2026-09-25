@@ -4,3 +4,4 @@ supabase/.branches/
 .env
 *.local
 node_modules/
+materials/poster/build/

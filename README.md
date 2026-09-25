@@ -15,6 +15,13 @@ Hospital-wide step challenge for the cardiology club.
 
 Nobody has to do anything daily.
 
+## Links
+
+- Live page: https://lmhstepchallenge.github.io/
+- Preview with sample data (safe to share): https://lmhstepchallenge.github.io/preview/
+- Break-room TV: https://lmhstepchallenge.github.io/#tv (full-screen the browser on the TV)
+- Poster PDFs: `materials/poster/`
+
 ## Organizer tasks
 
 ### Set the challenge dates and name
@@ -37,6 +44,19 @@ update public.challenge set
 insert into public.announcements (publish_at, title, body)
 values ('2026-10-06 07:00-04', 'Stairs Tuesday', 'Skip the elevator all day.');
 ```
+
+A shout-out gets its own card if the title starts with `Shout-out:`:
+
+```sql
+insert into public.announcements (publish_at, title, body)
+values ('2026-10-09 07:00-04', 'Shout-out: 4 West', 'Night shift walked the unit loop on every break this week.');
+```
+
+The newest announcement published today (that isn't a shout-out) also shows as "Today · <title>" at the top of the page.
+
+### Edit page text, badges, facts or the quiz
+
+All of it is in `docs/js/content.js`. Push to `main` to publish.
 
 ### Remove a participant from the board
 
@@ -72,6 +92,12 @@ SUPABASE_ACCESS_TOKEN=$(tr -d '[:space:]' < ~/.cardio-supabase-token) supabase f
 `scripts/sql.sh "select ..."` runs any SQL through the Supabase Management API, no database password needed.
 
 The page deploys on every push to `main` (GitHub Pages, `docs/` folder).
+
+Before changing `get_board`, run the SQL test (in-memory Postgres, no network):
+
+```bash
+cd tests && npm install && npm test
+```
 
 ## Secrets
 

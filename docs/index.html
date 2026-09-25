@@ -3,229 +3,195 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Cardio Step Challenge</title>
-<meta name="description" content="Hospital-wide step challenge hosted by the cardiology club.">
-<style>
-  :root {
-    --bg: #f7f7f8; --card: #ffffff; --ink: #1b1d21; --muted: #5d6470; --line: #e3e5e9;
-    --accent: #c8102e; --accent-ink: #ffffff; --you: #fff1f3; --ok: #1f7a4d; --warn: #9a5b00;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #121316; --card: #1b1d21; --ink: #eceef2; --muted: #9aa1ad; --line: #2c2f36;
-      --accent: #ff4d63; --accent-ink: #121316; --you: #2a1a1e; --ok: #4fc58a; --warn: #f0b35a;
-      color-scheme: dark; }
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink);
-    font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  main { max-width: 720px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; }
-  h1 { margin: 0; font-size: 1.6rem; text-wrap: balance; }
-  h2 { margin: 0 0 8px; font-size: 1.05rem; }
-  .muted { color: var(--muted); }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
-  .btn { display: inline-block; background: var(--accent); color: var(--accent-ink); text-decoration: none;
-    padding: 12px 18px; border-radius: 8px; font-weight: 600; }
-  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-  .banner { padding: 12px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); }
-  .banner.ok { border-color: var(--ok); } .banner.warn { border-color: var(--warn); }
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
-  .stat b { display: block; font-size: 1.4rem; font-variant-numeric: tabular-nums; }
-  .bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin-top: 8px; }
-  .bar > span { display: block; height: 100%; background: var(--accent); }
-  .tabs { display: flex; gap: 8px; margin-bottom: 8px; }
-  .tabs button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line);
-    background: transparent; color: var(--ink); cursor: pointer; }
-  .tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
-  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-  th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; }
-  th { font-size: .8rem; color: var(--muted); font-weight: 600; }
-  td.n, th.n { text-align: right; }
-  tr.you td { background: var(--you); font-weight: 600; }
-  .who { display: flex; align-items: center; gap: 8px; min-width: 0; }
-  .who img, .who .ph { width: 26px; height: 26px; border-radius: 50%; flex: none; background: var(--line); object-fit: cover; }
-  .who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .scroll { overflow-x: auto; }
-  ul.plain { margin: 0; padding-left: 18px; }
-  footer { font-size: .85rem; }
-</style>
+<title>Cardio Step Challenge · Lake Monroe Hospital</title>
+<meta name="description" content="The hospital-wide step challenge at HCA Florida Lake Monroe Hospital, hosted by the Cardiology Club. One scan, 3 minutes to join.">
+<meta name="theme-color" content="#edf1f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#020b1d" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Cardio Step Challenge">
+<meta property="og:description" content="Walk the coronary tree with your colleagues at Lake Monroe Hospital.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://ipwnyjsbdpzjjdojyebl.supabase.co" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.css" integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/tv.css">
+<script>
+  // Before first paint: TV mode and motion flags, so nothing flashes.
+  (function () {
+    var d = document.documentElement;
+    if (location.hash === "#tv") d.classList.add("tv-mode");
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !/[?&]motion=off/.test(location.search)) d.classList.add("js-motion");
+  })();
+</script>
 </head>
 <body>
-<main>
-  <header class="row">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 48 48">
+    <rect width="48" height="48" rx="12" fill="#03173e"/>
+    <rect x="1" y="1" width="46" height="46" rx="11" fill="none" stroke="#4fd6e6" stroke-opacity=".25"/>
+    <path d="M6 26h9l3-5 3.5 12L26 11l3.5 19 2.5-4h10" fill="none" stroke="#3dfc9a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M7 38c3-2 6-2 9 0s6 2 9 0 6-2 9 0 5 2 7 1" fill="none" stroke="#4fd6e6" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="26" cy="11" r="2.2" fill="#ff5a3c"/>
+  </symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.1 1.1.1 2.3-.6 3-1.5z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M4.2 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.3-9.7-9.3-9.7zm10.6 11 2.9 3-11.6 6.6c-.4.2-.8.3-1.1.2l9.8-9.8zm4.5-3.8 2.8 1.6c.8.5.8 1.3 0 1.8l-2.8 1.6-3.1-3.2 3.1-1.8zM5.1 1.2c.3-.1.7 0 1.1.2l11.6 6.6-2.9 3L5.1 1.2z"/></symbol>
+</svg>
+
+<div id="app">
+<header class="topbar">
+  <a class="brand" href="#hero" data-scroll>
+    <svg class="mark" aria-hidden="true"><use href="#mark"/></svg>
+    <span><b>Cardio Step Challenge</b><small>Lake Monroe Hospital</small></span>
+  </a>
+  <span class="pill" id="pill"><span class="dot"></span><span id="pill-text">Connecting</span></span>
+  <div class="progress" aria-hidden="true"><svg id="progress-svg" preserveAspectRatio="none"><path id="progress-path"/></svg></div>
+</header>
+
+<main id="page">
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="grid"></div>
+    <svg class="lake" id="hero-lake" aria-hidden="true"></svg>
+    <div class="hero-inner">
+      <div class="kicker"><b>HCA Florida Lake Monroe Hospital</b> · hosted by the Cardiology Club</div>
+      <h1 id="hero-title"><span class="line">Every step counts.</span><span class="line"><em>Literally.</em></span></h1>
+      <div class="theme-chip" id="theme-chip" hidden></div>
+      <div class="channels" id="hero-channels" role="group" aria-label="Hospital totals">
+        <div class="ch big c-ecg"><label><span>Steps · hospital</span><span id="ch-status">—</span></label><span class="v"><span data-num="steps">0</span></span></div>
+        <div class="ch c-spo2"><label><span>Goal</span><span>%</span></label><span class="v"><span data-num="goal" data-dec="1">0</span><span class="u">%</span></span></div>
+        <div class="ch c-amber"><label><span id="ch-today-l">Today</span><span id="ch-today-u">steps</span></label><span class="v"><span data-num="today">0</span></span></div>
+        <div class="ch c-white"><label><span>Walkers</span><span>staff</span></label><span class="v"><span data-num="walkers">0</span></span></div>
+        <div class="ch c-heart"><label><span>Distance</span><span>km</span></label><span class="v"><span data-num="km">0</span></span></div>
+      </div>
+    </div>
+    <div class="trace" id="hero-trace" aria-hidden="true">
+      <svg preserveAspectRatio="none"><path class="water"/><path class="line"/><circle class="head" r="3.5"/></svg>
+    </div>
+    <div class="hero-foot">
+      <a class="btn" id="hero-cta" href="#join" data-scroll>Join in 3 minutes</a>
+      <span class="sub" id="hero-sub"></span>
+    </div>
+  </section>
+
+  <div class="banner" id="banner" hidden><div role="status"><span class="ic"></span><p id="banner-text"></p></div></div>
+
+  <!-- 02 · Your chart (connected) -->
+  <section class="chapter" id="you" hidden aria-labelledby="you-title">
+    <div class="chead">
+      <div class="eyebrow">02 · Your chart</div>
+      <h2 id="you-title">You</h2>
+    </div>
+    <div id="joined-slot"></div>
+    <div class="you-grid">
+      <div class="screen youmon" id="youmon" data-reveal></div>
+      <div class="card ladder" id="ladder" data-reveal></div>
+      <div class="feed" id="feed"></div>
+      <div class="card rc" id="mybadges" data-reveal></div>
+    </div>
+  </section>
+
+  <!-- 02 · Join (new visitors) -->
+  <section class="chapter" id="join" hidden aria-labelledby="join-title">
+    <div class="chead">
+      <div class="eyebrow">02 · Join</div>
+      <h2 id="join-title">Two steps. About 3 minutes.</h2>
+      <p>You'll never need to open this page again. Your steps sync on their own from your phone or watch.</p>
+    </div>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <!-- 03 · Telemetry -->
+  <section class="chapter" id="board" aria-labelledby="board-title">
+    <div class="chead">
+      <div class="eyebrow">03 · Telemetry</div>
+      <h2 id="board-title">The board</h2>
+      <p id="board-lede">Total steps is the only score. Weekly rounds start fresh every Monday.</p>
+    </div>
+    <div class="boardbar">
+      <div class="seg" role="group" aria-label="Leaderboard view">
+        <button type="button" data-view="total" aria-pressed="true">Whole challenge</button>
+        <button type="button" data-view="week" aria-pressed="false">This week</button>
+      </div>
+      <label class="find"><span class="sr">Find someone</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="find" type="search" placeholder="Find someone" autocomplete="off">
+      </label>
+    </div>
+    <p class="weeknote" id="weeknote"></p>
+    <div class="card board-wrap">
+      <ol class="lb" id="lb" aria-live="off"></ol>
+      <div class="more" id="more"></div>
+    </div>
+  </section>
+
+  <!-- 04 · Vitals -->
+  <section class="chapter" id="vitals" aria-labelledby="vitals-title">
+    <div class="chead">
+      <div class="eyebrow">04 · Vitals</div>
+      <h2 id="vitals-title">Walk the coronary tree</h2>
+      <p id="vitals-lede">Every step anyone takes moves the whole hospital through the heart's arteries, from the left main to the PDA.</p>
+    </div>
+    <div class="journey">
+      <div class="screen stage" id="stage">
+        <div class="jstat">
+          <div><div class="label">Hospital goal</div><div class="v"><span id="j-pct">0</span><span style="font-size:.45em">%</span></div></div>
+          <div class="where"><span id="j-where-label">Now in</span><b id="j-where">Left main</b><span id="j-left"></span></div>
+        </div>
+        <div class="heart" id="heart"></div>
+        <div class="jbar"><span id="j-bar"></span></div>
+        <p class="landmark" id="landmark"></p>
+      </div>
+      <div class="impact" id="impact"></div>
+    </div>
+  </section>
+
+  <!-- 05 · Rounds -->
+  <section class="chapter" id="rounds" aria-labelledby="rounds-title">
+    <div class="chead">
+      <div class="eyebrow">05 · Rounds</div>
+      <h2 id="rounds-title">Rounds</h2>
+      <p>Yesterday's top three, who's climbing, hospital moments, shout-outs and this week's quiz.</p>
+    </div>
+    <div class="rounds" id="rounds-grid"></div>
+  </section>
+
+  <!-- 06 · Hall of weeks -->
+  <section class="chapter" id="hall-ch" aria-labelledby="hall-title" hidden>
+    <div class="chead">
+      <div class="eyebrow">06 · Hall of weeks</div>
+      <h2 id="hall-title">Hall of weeks</h2>
+      <p>Every Monday the weekly board starts from zero. Winners stay here for good.</p>
+    </div>
+    <div class="hall" id="hall"></div>
+  </section>
+
+  <footer class="foot">
     <div>
-      <h1 id="title">Cardio Step Challenge</h1>
-      <div class="muted" id="subtitle">Loading…</div>
+      <div class="who"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg>
+        <div><b>Cardiology Club</b><span>HCA Florida Lake Monroe Hospital · Sanford, FL</span></div></div>
     </div>
-    <a class="btn" id="connect" href="#">Connect Pacer</a>
-  </header>
-
-  <div id="banner" class="banner" hidden></div>
-
-  <section class="card" id="me-card" hidden>
-    <h2>You</h2>
-    <div class="stats" id="me-stats"></div>
-  </section>
-
-  <section class="card">
-    <h2 id="goal-label">Hospital goal</h2>
-    <div class="stats" id="totals"></div>
-    <div class="bar" aria-hidden="true"><span id="goal-bar" style="width:0"></span></div>
-    <div class="muted" id="goal-text"></div>
-  </section>
-
-  <section class="card">
-    <div class="tabs" role="group" aria-label="Leaderboard">
-      <button type="button" id="tab-total" aria-pressed="true">Whole challenge</button>
-      <button type="button" id="tab-week" aria-pressed="false">This week</button>
+    <div style="display:grid;gap:12px">
+      <p>Steps come from the free Pacer app, which reads your phone or watch. The board updates every 30 minutes. Typed-in steps don't count. Your name and photo come from your Pacer profile.</p>
+      <p id="updated"></p>
+      <div class="links">
+        <a id="reconnect" href="#">Reconnect Pacer</a>
+        <button type="button" id="forget" hidden>Not you? Forget this phone</button>
+        <a href="#tv" id="tvlink">TV mode</a>
+      </div>
+      <p style="font-size:12px">Lake Monroe shoreline © OpenStreetMap contributors.</p>
     </div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>#</th><th>Name</th><th class="n" id="col-main">Steps</th><th class="n">Today</th><th class="n">Streak</th></tr></thead>
-        <tbody id="board"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="card" id="podium-card" hidden>
-    <h2>Yesterday's top 3</h2>
-    <ul class="plain" id="podium"></ul>
-  </section>
-
-  <section class="card" id="movers-card" hidden>
-    <h2>Biggest movers this week</h2>
-    <ul class="plain" id="movers"></ul>
-  </section>
-
-  <section class="card" id="news-card" hidden>
-    <h2>Announcements</h2>
-    <div id="news"></div>
-  </section>
-
-  <footer class="muted">
-    Steps come from the free Pacer app, which reads your phone or watch automatically.
-    The board refreshes every 30 minutes after your phone syncs. Manually typed steps do not count.
-    <span id="updated"></span>
   </footer>
 </main>
+</div>
 
-<script>
-const CONFIG = {
-  supabaseUrl: "https://ipwnyjsbdpzjjdojyebl.supabase.co",
-  publishableKey: "sb_publishable_MP3JHZpE_xYrCRySAYSxww_zy_kvB4J",
-};
-const fnUrl = CONFIG.supabaseUrl + "/functions/v1";
-const $ = (id) => document.getElementById(id);
-const fmt = (n) => Number(n || 0).toLocaleString();
-let me = null, board = null, view = "total";
+<div id="tv" hidden></div>
+<div class="demo-chip" id="demo-chip" hidden></div>
 
-try {
-  const q = new URLSearchParams(location.search);
-  if (q.get("me")) { localStorage.setItem("me", q.get("me")); history.replaceState(null, "", location.pathname + location.hash); }
-  me = localStorage.getItem("me");
-} catch {}
-
-$("connect").href = fnUrl + "/auth-start";
-
-const banners = {
-  joined:  ["ok",   "You're in. Your steps will appear within a few minutes and keep updating on their own."],
-  denied:  ["warn", "Pacer access was not approved. Tap Connect Pacer to try again."],
-  expired: ["warn", "That sign-in link expired. Tap Connect Pacer to try again."],
-  error:   ["warn", "Something went wrong connecting to Pacer. Try again in a minute; if it keeps failing, tell the cardiology club."],
-};
-const b = banners[location.hash.slice(1)];
-if (b) { $("banner").className = "banner " + b[0]; $("banner").textContent = b[1]; $("banner").hidden = false; }
-
-function person(p) {
-  const d = document.createElement("div"); d.className = "who";
-  if (p.avatar) { const i = document.createElement("img"); i.src = p.avatar; i.alt = ""; i.loading = "lazy"; d.append(i); }
-  else { const s = document.createElement("span"); s.className = "ph"; d.append(s); }
-  const n = document.createElement("span"); n.textContent = p.name; d.append(n);
-  return d;
-}
-
-function stat(label, value) {
-  const d = document.createElement("div"); d.className = "stat";
-  const b = document.createElement("b"); b.textContent = value;
-  d.append(b, document.createTextNode(label)); return d;
-}
-
-function render() {
-  if (!board) return;
-  const c = board.challenge, t = board.totals;
-  $("title").textContent = c.name;
-  $("subtitle").textContent =
-    c.status === "upcoming" ? `Starts ${c.start_date} · ${c.days_left} days to go` :
-    c.status === "finished" ? `Finished ${c.end_date}` :
-    `Day ${c.day_number} of ${c.days_total} · ${c.days_left} days left`;
-
-  $("totals").replaceChildren(stat("steps together", fmt(t.steps)), stat("walkers", fmt(t.participants)),
-    stat("moved today", fmt(t.active_today)));
-  $("goal-label").textContent = c.collective_goal_label;
-  const pct = Math.min(100, (t.steps / c.collective_goal_steps) * 100);
-  $("goal-bar").style.width = pct.toFixed(1) + "%";
-  $("goal-text").textContent = `${pct.toFixed(1)}% of ${fmt(c.collective_goal_steps)} steps`;
-
-  const m = board.me;
-  $("me-card").hidden = !m;
-  if (m) $("me-stats").replaceChildren(stat("rank", "#" + m.rank), stat("total steps", fmt(m.total)),
-    stat("today", fmt(m.today)), stat("day streak", m.streak));
-  $("connect").textContent = m ? "Reconnect Pacer" : "Connect Pacer";
-
-  const rows = [...board.leaderboard].sort((a, b) =>
-    view === "week" ? a.week_rank - b.week_rank : a.rank - b.rank);
-  $("col-main").textContent = view === "week" ? "This week" : "Total";
-  $("board").replaceChildren(...rows.map((p) => {
-    const tr = document.createElement("tr"); if (p.id === me) tr.className = "you";
-    const cells = [view === "week" ? p.week_rank : p.rank, null, fmt(view === "week" ? p.week : p.total), fmt(p.today), p.streak];
-    cells.forEach((v, i) => {
-      const td = document.createElement("td"); if (i >= 2) td.className = "n";
-      if (i === 1) td.append(person(p)); else td.textContent = v;
-      tr.append(td);
-    });
-    return tr;
-  }));
-
-  $("podium-card").hidden = !board.podium_yesterday.length;
-  $("podium").replaceChildren(...board.podium_yesterday.map((p) => {
-    const li = document.createElement("li"); li.textContent = `${p.name} · ${fmt(p.steps)}`; return li; }));
-  $("movers-card").hidden = !board.movers.length;
-  $("movers").replaceChildren(...board.movers.map((p) => {
-    const li = document.createElement("li");
-    li.textContent = `${p.name} · +${fmt(p.delta)} steps/day vs last week`; return li; }));
-  $("news-card").hidden = !board.announcements.length;
-  $("news").replaceChildren(...board.announcements.map((a) => {
-    const d = document.createElement("p"); const s = document.createElement("strong");
-    s.textContent = a.title; d.append(s, document.createTextNode(" " + a.body)); return d; }));
-  $("updated").textContent = "Last refreshed " + new Date(board.generated_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) + ".";
-}
-
-async function load() {
-  try {
-    const res = await fetch(CONFIG.supabaseUrl + "/rest/v1/rpc/get_board", {
-      method: "POST",
-      headers: { apikey: CONFIG.publishableKey, "Content-Type": "application/json" },
-      body: JSON.stringify({ me: me || null }),
-    });
-    if (!res.ok) throw new Error(res.status);
-    board = await res.json();
-    render();
-  } catch (e) {
-    $("subtitle").textContent = "Couldn't load the leaderboard. Retrying shortly.";
-  }
-}
-
-for (const [id, v] of [["tab-total", "total"], ["tab-week", "week"]]) {
-  $(id).addEventListener("click", () => {
-    view = v;
-    $("tab-total").setAttribute("aria-pressed", v === "total");
-    $("tab-week").setAttribute("aria-pressed", v === "week");
-    render();
-  });
-}
-load();
-setInterval(load, 60000);
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" integrity="sha384-jqpi9VmOdhyLoLURgjCn7EpnG9BbnHW57ibIZoeaIU+erWDH3k8fQQg0xH2ySjnw" crossorigin="anonymous"></script>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>

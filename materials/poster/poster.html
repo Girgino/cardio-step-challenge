@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cardio Step Challenge poster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=block">
+<style>
+/*{{TOKENS}}*/
+@page { size: {{PAGE_W}} {{PAGE_H}}; margin: 0; }
+:root { --u: {{UNIT}}; color-scheme: light; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: var(--font); color: #0b1b33; }
+.page { width: {{PAGE_W}}; height: {{PAGE_H}}; padding: calc(var(--u) * 0.36); display: flex; flex-direction: column; gap: calc(var(--u) * 0.26); overflow: hidden; }
+
+/* monitor band */
+.band { position: relative; flex: {{BAND_FLEX}}; border-radius: calc(var(--u) * 0.28); overflow: hidden; color: #eaf2ff; isolation: isolate;
+  background: radial-gradient(120% 80% at 85% -10%, #0c2d63 0%, transparent 60%), linear-gradient(180deg, #03173e 0%, #021030 100%);
+  padding: calc(var(--u) * 0.46) calc(var(--u) * 0.5); display: flex; flex-direction: column; }
+.band .grid { position: absolute; inset: 0; z-index: -2; opacity: .3;
+  background-image: linear-gradient(rgba(143,173,214,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(143,173,214,.14) 1px, transparent 1px);
+  background-size: calc(var(--u) * 0.36) calc(var(--u) * 0.36); }
+.band .lake { position: absolute; z-index: -1; right: calc(var(--u) * -0.6); top: calc(var(--u) * 0.2); width: 82%; opacity: .34; }
+.page-11x17 .band .lake { top: 26%; right: -8%; width: 104%; opacity: .4; }
+.lake path { fill: none; stroke: #4fd6e6; }
+.lake .shore { stroke-width: 1.6; opacity: .7; }
+.lake .iso { stroke-width: 1.1; }
+.lake text { font: 600 16px var(--mono); fill: #ff5a3c; letter-spacing: .1em; }
+.top { display: flex; align-items: center; gap: calc(var(--u) * 0.16); }
+.top svg { width: calc(var(--u) * 0.5); height: calc(var(--u) * 0.5); flex: none; }
+.kicker { font: 600 calc(var(--u) * 0.105)/1.35 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #8fa4c4; }
+.kicker b { color: #4fd6e6; font-weight: 600; display: block; }
+h1 { margin: calc(var(--u) * 0.42) 0 0; font-weight: 600; font-size: calc(var(--u) * 0.86); line-height: .96; letter-spacing: -0.04em; }
+h1 span { display: block; }
+h1 em { font-style: normal; color: #3dfc9a; text-shadow: 0 0 calc(var(--u) * 0.25) rgba(61,252,154,.35); }
+.sub { margin: calc(var(--u) * 0.22) 0 0; font-size: calc(var(--u) * 0.2); line-height: 1.35; color: #bccae0; max-width: 22em; }
+.dates { margin-top: calc(var(--u) * 0.16); display: inline-flex; align-self: flex-start; gap: .6em; align-items: center; padding: .5em .9em; border-radius: 99em;
+  border: 1px solid rgba(255,194,74,.5); color: #ffc24a; background: rgba(255,194,74,.08); font: 600 calc(var(--u) * 0.14)/1 var(--mono); letter-spacing: .04em; }
+.dates::before { content: ""; width: .55em; height: .55em; border-radius: 50%; background: #ffc24a; }
+.ecg { margin-top: auto; margin-left: calc(var(--u) * -0.5); margin-right: calc(var(--u) * -0.5); height: calc(var(--u) * 1.0); }
+.ecg svg { width: 100%; height: 100%; overflow: visible; }
+.ecg .line { fill: none; stroke: #3dfc9a; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(61,252,154,.6)); }
+.ecg .water { fill: none; stroke: #4fd6e6; stroke-width: 1.2; opacity: .4; }
+
+/* body */
+.body { flex: 1; display: grid; grid-template-columns: auto 1fr; gap: calc(var(--u) * 0.42); align-items: center; padding: 0 calc(var(--u) * 0.1); }
+.qrcard { display: grid; justify-items: center; gap: calc(var(--u) * 0.1); }
+.qr { width: calc(var(--u) * 2.95); height: calc(var(--u) * 2.95); padding: calc(var(--u) * 0.08); border: 2px solid #0b1b33; border-radius: calc(var(--u) * 0.2); background: #fff; }
+.qr svg { width: 100%; height: 100%; display: block; }
+.scan { font-weight: 700; font-size: calc(var(--u) * 0.34); letter-spacing: -0.03em; line-height: 1; margin-top: calc(var(--u) * 0.06); }
+.scan span { color: #c2371a; }
+.url { font: 600 calc(var(--u) * 0.12)/1 var(--mono); color: #33455f; letter-spacing: .02em; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--u) * 0.24); }
+.steps li { display: grid; grid-template-columns: calc(var(--u) * 0.46) 1fr; gap: calc(var(--u) * 0.16); align-items: start; }
+.steps i { font: 700 calc(var(--u) * 0.2)/calc(var(--u) * 0.46) var(--mono); font-style: normal; text-align: center; width: calc(var(--u) * 0.46); height: calc(var(--u) * 0.46); border-radius: 50%; background: #c2371a; color: #fff; }
+.steps b { display: block; font-size: calc(var(--u) * 0.25); letter-spacing: -0.02em; line-height: 1.15; }
+.steps p { margin: calc(var(--u) * 0.05) 0 0; font-size: calc(var(--u) * 0.155); line-height: 1.4; color: #33455f; }
+.prize { margin-top: calc(var(--u) * 0.06); padding: calc(var(--u) * 0.14) calc(var(--u) * 0.18); border-radius: calc(var(--u) * 0.14); background: #fff1ec; border-left: calc(var(--u) * 0.06) solid #c2371a; font-size: calc(var(--u) * 0.155); line-height: 1.35; font-weight: 600; }
+.facts { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 0.08); margin-top: calc(var(--u) * 0.04); }
+.facts span { font: 600 calc(var(--u) * 0.1)/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #07804d; padding: .55em .8em; border-radius: 99em; border: 1px solid #b9dcca; }
+
+/* footer */
+.foot { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 0.3); padding: calc(var(--u) * 0.16) calc(var(--u) * 0.1) 0; border-top: 1px solid #d3dbe4; }
+.who { display: flex; align-items: center; gap: calc(var(--u) * 0.14); }
+.who svg { width: calc(var(--u) * 0.46); height: calc(var(--u) * 0.46); }
+.who b { display: block; font-size: calc(var(--u) * 0.17); }
+.who span { font: 600 calc(var(--u) * 0.09)/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #5c6c82; }
+.cobrand { width: calc(var(--u) * 1.6); height: calc(var(--u) * 0.46); }
+</style>
+</head>
+<body>
+<div class="page {{SIZE}}">
+  <section class="band">
+    <div class="grid"></div>
+    <svg class="lake" viewBox="{{LAKE_VIEWBOX}}" preserveAspectRatio="xMidYMid meet">{{LAKE}}</svg>
+    <div class="top">
+      {{MARK}}
+      <div class="kicker"><b>Cardiology Club</b>HCA Florida Lake Monroe Hospital</div>
+    </div>
+    <h1><span>{{H1A}}</span><span><em>{{H1B}}</em></span></h1>
+    <p class="sub">{{SUB}}</p>
+    <div class="dates">{{DATES}}</div>
+    <div class="ecg"><svg viewBox="0 0 1000 100" preserveAspectRatio="none"><path class="water" d="{{WATER}}"/><path class="line" d="{{ECG}}"/></svg></div>
+  </section>
+
+  <section class="body">
+    <div class="qrcard">
+      <div class="qr">{{QR}}</div>
+      <div class="scan">One scan. <span>3 minutes.</span></div>
+      <div class="url">{{URL_SHORT}}</div>
+    </div>
+    <div>
+      <ol class="steps">
+        <li><i>1</i><div><b>Get Pacer</b><p>The free step-counting app. Sign in with Apple or Google, and allow Health access.</p></div></li>
+        <li><i>2</i><div><b>Tap Connect</b><p>Back on the page, pick the same sign-in you used in the app. That's it. Your steps sync on their own.</p></div></li>
+      </ol>
+      <div class="prize">{{PRIZE}}</div>
+      <div class="facts"><span>Total steps only</span><span>No teams</span><span>Phone or watch</span></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="who">{{MARK}}<div><b>Hosted by the Cardiology Club</b><span>HCA Florida Lake Monroe Hospital · Sanford, FL</span></div></div>
+    <div class="cobrand" aria-hidden="true"></div>
+  </footer>
+</div>
+</body>
+</html>

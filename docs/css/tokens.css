@@ -1,0 +1,93 @@
+/* Visual identity shared by the page, the TV mode and the poster.
+   "Night-shift monitor": light device housing with inset monitor screens,
+   deep navy that sits well beside HCA Florida materials, telemetry signal colors. */
+:root {
+  /* housing (light) */
+  --bg: #edf1f5;
+  --bg-2: #e3e9ef;
+  --surface: #ffffff;
+  --surface-2: #f5f7fa;
+  --ink: #0b1b33;
+  --ink-2: #33455f;
+  --muted: #5c6c82;
+  --line: #d3dbe4;
+  --line-2: #c2ccd8;
+
+  /* monitor screens (same in both themes) */
+  --scr: #03173e;
+  --scr-2: #021030;
+  --scr-3: #0a2350;
+  --scr-ink: #eaf2ff;
+  --scr-muted: #8fa4c4;
+  --scr-line: rgba(143, 173, 214, 0.18);
+
+  /* signals on screens */
+  --ecg: #3dfc9a;
+  --spo2: #4fd6e6;
+  --amber: #ffc24a;
+  --heart: #ff5a3c;
+
+  /* the same signals, tuned for text on the light housing */
+  --ecg-ink: #07804d;
+  --spo2-ink: #0a6f82;
+  --amber-ink: #8a5800;
+  --heart-ink: #c2371a;
+  --you: #fff1ec;
+  --you-line: #ffb7a3;
+
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgba(11, 27, 51, 0.06), 0 8px 28px rgba(11, 27, 51, 0.07);
+  --screen-shadow: inset 0 0 0 1px rgba(143, 173, 214, 0.14), inset 0 0 60px rgba(0, 0, 0, 0.35),
+    0 1px 2px rgba(11, 27, 51, 0.12), 0 18px 40px rgba(3, 23, 62, 0.22);
+
+  --font: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #020b1d;
+    --bg-2: #041330;
+    --surface: #061733;
+    --surface-2: #0a1e40;
+    --ink: #eaf2ff;
+    --ink-2: #bccae0;
+    --muted: #8397b6;
+    --line: rgba(143, 173, 214, 0.16);
+    --line-2: rgba(143, 173, 214, 0.26);
+    --scr: #041a44;
+    --scr-2: #02102c;
+    --ecg-ink: #3dfc9a;
+    --spo2-ink: #4fd6e6;
+    --amber-ink: #ffc24a;
+    --heart-ink: #ff7a5e;
+    --you: rgba(255, 90, 60, 0.12);
+    --you-line: rgba(255, 90, 60, 0.45);
+    --shadow: 0 1px 0 rgba(143, 173, 214, 0.06) inset, 0 10px 30px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #020b1d;
+  --bg-2: #041330;
+  --surface: #061733;
+  --surface-2: #0a1e40;
+  --ink: #eaf2ff;
+  --ink-2: #bccae0;
+  --muted: #8397b6;
+  --line: rgba(143, 173, 214, 0.16);
+  --line-2: rgba(143, 173, 214, 0.26);
+  --scr: #041a44;
+  --scr-2: #02102c;
+  --ecg-ink: #3dfc9a;
+  --spo2-ink: #4fd6e6;
+  --amber-ink: #ffc24a;
+  --heart-ink: #ff7a5e;
+  --you: rgba(255, 90, 60, 0.12);
+  --you-line: rgba(255, 90, 60, 0.45);
+  --shadow: 0 1px 0 rgba(143, 173, 214, 0.06) inset, 0 10px 30px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "cardio-poster",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node build.mjs" },
+  "dependencies": { "qrcode": "1.5.4", "jsqr": "1.4.0", "pngjs": "7.0.0" }
+}
